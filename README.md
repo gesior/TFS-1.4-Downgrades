@@ -9,6 +9,7 @@ It's a nice base to start working on in desired protocol version.
 #### **[7.72](https://github.com/nekiro/TFS-1.4-Downgrades/tree/7.72)**
 #### **[8.0](https://github.com/nekiro/TFS-1.4-Downgrades/tree/8.0)**
 #### **[8.60](https://github.com/nekiro/TFS-1.4-Downgrades/tree/8.60)**
+#### **[12.x](https://github.com/nekiro/TFS-1.4-Downgrades/tree/12.x)**
 
 ## Donate
 If you like my work and respect my time, you can consider becoming [Github Sponsor](https://github.com/sponsors/nekiro).
