@@ -263,24 +263,6 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 				minDamage = pugi::cast<int32_t>(attr.value());
 				maxDamage = minDamage;
 				tickInterval = 5000;
-			} else if ((attr = node.attribute("freeze"))) {
-				conditionType = CONDITION_FREEZING;
-
-				minDamage = pugi::cast<int32_t>(attr.value());
-				maxDamage = minDamage;
-				tickInterval = 8000;
-			} else if ((attr = node.attribute("dazzle"))) {
-				conditionType = CONDITION_DAZZLED;
-
-				minDamage = pugi::cast<int32_t>(attr.value());
-				maxDamage = minDamage;
-				tickInterval = 10000;
-			} else if ((attr = node.attribute("curse"))) {
-				conditionType = CONDITION_CURSED;
-
-				minDamage = pugi::cast<int32_t>(attr.value());
-				maxDamage = minDamage;
-				tickInterval = 4000;
 			} else if ((attr = node.attribute("bleed")) || (attr = node.attribute("physical"))) {
 				conditionType = CONDITION_BLEEDING;
 				tickInterval = 4000;
@@ -317,12 +299,6 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_ENERGYDAMAGE);
 		} else if (tmpName == "drown") {
 			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_DROWNDAMAGE);
-		} else if (tmpName == "ice") {
-			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_ICEDAMAGE);
-		} else if (tmpName == "holy") {
-			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_HOLYDAMAGE);
-		} else if (tmpName == "death") {
-			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_DEATHDAMAGE);
 		} else if (tmpName == "lifedrain") {
 			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_LIFEDRAIN);
 		} else if (tmpName == "manadrain") {
@@ -430,9 +406,6 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 			combat->setParam(COMBAT_PARAM_CREATEITEM, ITEM_ENERGYFIELD_PVP);
 		} else if (tmpName == "firecondition" || tmpName == "energycondition" ||
 				   tmpName == "poisoncondition" ||
-				   tmpName == "icecondition" || tmpName == "freezecondition" ||
-				   tmpName == "deathcondition" || tmpName == "cursecondition" ||
-				   tmpName == "holycondition" || tmpName == "dazzlecondition" ||
 				   tmpName == "drowncondition" || tmpName == "bleedcondition" ||
 				   tmpName == "physicalcondition") {
 			ConditionType_t conditionType = CONDITION_NONE;
@@ -450,15 +423,6 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 			} else if (tmpName == "drowncondition") {
 				conditionType = CONDITION_DROWN;
 				tickInterval = 5000;
-			} else if (tmpName == "freezecondition" || tmpName == "icecondition") {
-				conditionType = CONDITION_FREEZING;
-				tickInterval = 10000;
-			} else if (tmpName == "cursecondition" || tmpName == "deathcondition") {
-				conditionType = CONDITION_CURSED;
-				tickInterval = 4000;
-			} else if (tmpName == "dazzlecondition" || tmpName == "holycondition") {
-				conditionType = CONDITION_DAZZLED;
-				tickInterval = 10000;
 			} else if (tmpName == "physicalcondition" || tmpName == "bleedcondition") {
 				conditionType = CONDITION_BLEEDING;
 				tickInterval = 4000;
@@ -1074,15 +1038,6 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 				} else if (tmpStrValue == "drown") {
 					mType->info.damageImmunities |= COMBAT_DROWNDAMAGE;
 					mType->info.conditionImmunities |= CONDITION_DROWN;
-				} else if (tmpStrValue == "ice") {
-					mType->info.damageImmunities |= COMBAT_ICEDAMAGE;
-					mType->info.conditionImmunities |= CONDITION_FREEZING;
-				} else if (tmpStrValue == "holy") {
-					mType->info.damageImmunities |= COMBAT_HOLYDAMAGE;
-					mType->info.conditionImmunities |= CONDITION_DAZZLED;
-				} else if (tmpStrValue == "death") {
-					mType->info.damageImmunities |= COMBAT_DEATHDAMAGE;
-					mType->info.conditionImmunities |= CONDITION_CURSED;
 				} else if (tmpStrValue == "lifedrain") {
 					mType->info.damageImmunities |= COMBAT_LIFEDRAIN;
 				} else if (tmpStrValue == "manadrain") {
@@ -1124,21 +1079,6 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 				if (attr.as_bool()) {
 					mType->info.damageImmunities |= COMBAT_DROWNDAMAGE;
 					mType->info.conditionImmunities |= CONDITION_DROWN;
-				}
-			} else if ((attr = immunityNode.attribute("ice"))) {
-				if (attr.as_bool()) {
-					mType->info.damageImmunities |= COMBAT_ICEDAMAGE;
-					mType->info.conditionImmunities |= CONDITION_FREEZING;
-				}
-			} else if ((attr = immunityNode.attribute("holy"))) {
-				if (attr.as_bool()) {
-					mType->info.damageImmunities |= COMBAT_HOLYDAMAGE;
-					mType->info.conditionImmunities |= CONDITION_DAZZLED;
-				}
-			} else if ((attr = immunityNode.attribute("death"))) {
-				if (attr.as_bool()) {
-					mType->info.damageImmunities |= COMBAT_DEATHDAMAGE;
-					mType->info.conditionImmunities |= CONDITION_CURSED;
 				}
 			} else if ((attr = immunityNode.attribute("lifedrain"))) {
 				if (attr.as_bool()) {
@@ -1227,11 +1167,6 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 				if (mType->info.damageImmunities & COMBAT_PHYSICALDAMAGE) {
 					std::cout << "[Warning - Monsters::loadMonster] Same element \"physical\" on immunity and element tags. " << file << std::endl;
 				}
-			} else if ((attr = elementNode.attribute("icePercent"))) {
-				mType->info.elementMap[COMBAT_ICEDAMAGE] = pugi::cast<int32_t>(attr.value());
-				if (mType->info.damageImmunities & COMBAT_ICEDAMAGE) {
-					std::cout << "[Warning - Monsters::loadMonster] Same element \"ice\" on immunity and element tags. " << file << std::endl;
-				}
 			} else if ((attr = elementNode.attribute("poisonPercent"))) {
 				mType->info.elementMap[COMBAT_POISONDAMAGE] = pugi::cast<int32_t>(attr.value());
 				if (mType->info.damageImmunities & COMBAT_POISONDAMAGE) {
@@ -1246,16 +1181,6 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 				mType->info.elementMap[COMBAT_ENERGYDAMAGE] = pugi::cast<int32_t>(attr.value());
 				if (mType->info.damageImmunities & COMBAT_ENERGYDAMAGE) {
 					std::cout << "[Warning - Monsters::loadMonster] Same element \"energy\" on immunity and element tags. " << file << std::endl;
-				}
-			} else if ((attr = elementNode.attribute("holyPercent"))) {
-				mType->info.elementMap[COMBAT_HOLYDAMAGE] = pugi::cast<int32_t>(attr.value());
-				if (mType->info.damageImmunities & COMBAT_HOLYDAMAGE) {
-					std::cout << "[Warning - Monsters::loadMonster] Same element \"holy\" on immunity and element tags. " << file << std::endl;
-				}
-			} else if ((attr = elementNode.attribute("deathPercent"))) {
-				mType->info.elementMap[COMBAT_DEATHDAMAGE] = pugi::cast<int32_t>(attr.value());
-				if (mType->info.damageImmunities & COMBAT_DEATHDAMAGE) {
-					std::cout << "[Warning - Monsters::loadMonster] Same element \"death\" on immunity and element tags. " << file << std::endl;
 				}
 			} else if ((attr = elementNode.attribute("drownPercent"))) {
 				mType->info.elementMap[COMBAT_DROWNDAMAGE] = pugi::cast<int32_t>(attr.value());

@@ -110,9 +110,6 @@ const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributes
 	{"absorbpercentenergy", ITEM_PARSE_ABSORBPERCENTENERGY},
 	{"absorbpercentfire", ITEM_PARSE_ABSORBPERCENTFIRE},
 	{"absorbpercentpoison", ITEM_PARSE_ABSORBPERCENTPOISON},
-	{"absorbpercentice", ITEM_PARSE_ABSORBPERCENTICE},
-	{"absorbpercentholy", ITEM_PARSE_ABSORBPERCENTHOLY},
-	{"absorbpercentdeath", ITEM_PARSE_ABSORBPERCENTDEATH},
 	{"absorbpercentlifedrain", ITEM_PARSE_ABSORBPERCENTLIFEDRAIN},
 	{"absorbpercentmanadrain", ITEM_PARSE_ABSORBPERCENTMANADRAIN},
 	{"absorbpercentdrown", ITEM_PARSE_ABSORBPERCENTDROWN},
@@ -125,9 +122,6 @@ const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributes
 	{"suppresspoison", ITEM_PARSE_SUPPRESSPOISON},
 	{"suppressdrown", ITEM_PARSE_SUPPRESSDROWN},
 	{"suppressphysical", ITEM_PARSE_SUPPRESSPHYSICAL},
-	{"suppressfreeze", ITEM_PARSE_SUPPRESSFREEZE},
-	{"suppressdazzle", ITEM_PARSE_SUPPRESSDAZZLE},
-	{"suppresscurse", ITEM_PARSE_SUPPRESSCURSE},
 	{"field", ITEM_PARSE_FIELD},
 	{"replaceable", ITEM_PARSE_REPLACEABLE},
 	{"partnerdirection", ITEM_PARSE_PARTNERDIRECTION},
@@ -138,12 +132,9 @@ const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributes
 	{"femalesleeper", ITEM_PARSE_FEMALETRANSFORMTO},
 	{"transformto", ITEM_PARSE_TRANSFORMTO},
 	{"destroyto", ITEM_PARSE_DESTROYTO},
-	{"elementice", ITEM_PARSE_ELEMENTICE},
 	{"elementpoison", ITEM_PARSE_ELEMENTPOISON},
 	{"elementfire", ITEM_PARSE_ELEMENTFIRE},
 	{"elementenergy", ITEM_PARSE_ELEMENTENERGY},
-	{"elementdeath", ITEM_PARSE_ELEMENTDEATH},
-	{"elementholy", ITEM_PARSE_ELEMENTHOLY},
 	{"walkstack", ITEM_PARSE_WALKSTACK},
 	{"blocking", ITEM_PARSE_BLOCKING},
 	{"allowdistread", ITEM_PARSE_ALLOWDISTREAD},
@@ -1024,7 +1015,6 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_ENERGYDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_FIREDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_POISONDAMAGE)] += value;
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_ICEDAMAGE)] += value;
 					break;
 				}
 
@@ -1033,9 +1023,6 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_ENERGYDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_FIREDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_POISONDAMAGE)] += value;
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_ICEDAMAGE)] += value;
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_HOLYDAMAGE)] += value;
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_DEATHDAMAGE)] += value;
 					break;
 				}
 
@@ -1051,21 +1038,6 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 
 				case ITEM_PARSE_ABSORBPERCENTPOISON: {
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_POISONDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
-					break;
-				}
-
-				case ITEM_PARSE_ABSORBPERCENTICE: {
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_ICEDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
-					break;
-				}
-
-				case ITEM_PARSE_ABSORBPERCENTHOLY: {
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_HOLYDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
-					break;
-				}
-
-				case ITEM_PARSE_ABSORBPERCENTDEATH: {
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_DEATHDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
 					break;
 				}
 
@@ -1137,27 +1109,6 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 				case ITEM_PARSE_SUPPRESSPHYSICAL: {
 					if (valueAttribute.as_bool()) {
 						abilities.conditionSuppressions |= CONDITION_BLEEDING;
-					}
-					break;
-				}
-
-				case ITEM_PARSE_SUPPRESSFREEZE: {
-					if (valueAttribute.as_bool()) {
-						abilities.conditionSuppressions |= CONDITION_FREEZING;
-					}
-					break;
-				}
-
-				case ITEM_PARSE_SUPPRESSDAZZLE: {
-					if (valueAttribute.as_bool()) {
-						abilities.conditionSuppressions |= CONDITION_DAZZLED;
-					}
-					break;
-				}
-
-				case ITEM_PARSE_SUPPRESSCURSE: {
-					if (valueAttribute.as_bool()) {
-						abilities.conditionSuppressions |= CONDITION_CURSED;
 					}
 					break;
 				}
@@ -1306,12 +1257,6 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 					break;
 				}
 
-				case ITEM_PARSE_ELEMENTICE: {
-					abilities.elementDamage = pugi::cast<uint16_t>(valueAttribute.value());
-					abilities.elementType = COMBAT_ICEDAMAGE;
-					break;
-				}
-
 				case ITEM_PARSE_ELEMENTPOISON: {
 					abilities.elementDamage = pugi::cast<uint16_t>(valueAttribute.value());
 					abilities.elementType = COMBAT_POISONDAMAGE;
@@ -1327,18 +1272,6 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 				case ITEM_PARSE_ELEMENTENERGY: {
 					abilities.elementDamage = pugi::cast<uint16_t>(valueAttribute.value());
 					abilities.elementType = COMBAT_ENERGYDAMAGE;
-					break;
-				}
-
-				case ITEM_PARSE_ELEMENTDEATH: {
-					abilities.elementDamage = pugi::cast<uint16_t>(valueAttribute.value());
-					abilities.elementType = COMBAT_DEATHDAMAGE;
-					break;
-				}
-
-				case ITEM_PARSE_ELEMENTHOLY: {
-					abilities.elementDamage = pugi::cast<uint16_t>(valueAttribute.value());
-					abilities.elementType = COMBAT_HOLYDAMAGE;
 					break;
 				}
 

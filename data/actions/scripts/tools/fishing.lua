@@ -18,7 +18,6 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 			return true
 		end
 
-		toPosition:sendMagicEffect(CONST_ME_WATERSPLASH)
 		target:remove()
 
 		local rareChance = math.random(1, 100)
