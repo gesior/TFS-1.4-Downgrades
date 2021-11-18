@@ -1149,7 +1149,7 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(COMBAT_NONE)
 	registerEnum(COMBAT_PHYSICALDAMAGE)
 	registerEnum(COMBAT_ENERGYDAMAGE)
-	registerEnum(COMBAT_EARTHDAMAGE)
+	registerEnum(COMBAT_POISONDAMAGE)
 	registerEnum(COMBAT_FIREDAMAGE)
 	registerEnum(COMBAT_UNDEFINEDDAMAGE)
 	registerEnum(COMBAT_LIFEDRAIN)
@@ -13404,8 +13404,8 @@ int LuaScriptInterface::luaMonsterTypeCombatImmunities(lua_State* L)
 			} else if (immunity == "fire") {
 				monsterType->info.damageImmunities |= COMBAT_FIREDAMAGE;
 				pushBoolean(L, true);
-			} else if (immunity == "poison" || immunity == "earth") {
-				monsterType->info.damageImmunities |= COMBAT_EARTHDAMAGE;
+			} else if (immunity == "poison") {
+				monsterType->info.damageImmunities |= COMBAT_POISONDAMAGE;
 				pushBoolean(L, true);
 			} else if (immunity == "drown") {
 				monsterType->info.damageImmunities |= COMBAT_DROWNDAMAGE;
@@ -13454,7 +13454,7 @@ int LuaScriptInterface::luaMonsterTypeConditionImmunities(lua_State* L)
 			} else if (immunity == "fire") {
 				monsterType->info.conditionImmunities |= CONDITION_FIRE;
 				pushBoolean(L, true);
-			} else if (immunity == "poison" || immunity == "earth") {
+			} else if (immunity == "poison") {
 				monsterType->info.conditionImmunities |= CONDITION_POISON;
 				pushBoolean(L, true);
 			} else if (immunity == "drown") {
@@ -16722,8 +16722,8 @@ int LuaScriptInterface::luaWeaponElement(lua_State* L)
 		if (!getNumber<CombatType_t>(L, 2)) {
 			std::string element = getString(L, 2);
 			std::string tmpStrValue = asLowerCaseString(element);
-			if (tmpStrValue == "earth") {
-				weapon->params.combatType = COMBAT_EARTHDAMAGE;
+			if (tmpStrValue == "poison") {
+				weapon->params.combatType = COMBAT_POISONDAMAGE;
 			} else if (tmpStrValue == "ice") {
 				weapon->params.combatType = COMBAT_ICEDAMAGE;
 			} else if (tmpStrValue == "energy") {
@@ -17043,8 +17043,8 @@ int LuaScriptInterface::luaWeaponExtraElement(lua_State* L)
 		if (!getNumber<CombatType_t>(L, 3)) {
 			std::string element = getString(L, 3);
 			std::string tmpStrValue = asLowerCaseString(element);
-			if (tmpStrValue == "earth") {
-				it.abilities.get()->elementType = COMBAT_EARTHDAMAGE;
+			if (tmpStrValue == "poison") {
+				it.abilities.get()->elementType = COMBAT_POISONDAMAGE;
 			} else if (tmpStrValue == "ice") {
 				it.abilities.get()->elementType = COMBAT_ICEDAMAGE;
 			} else if (tmpStrValue == "energy") {

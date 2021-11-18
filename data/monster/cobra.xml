@@ -26,7 +26,7 @@
 	<defenses armor="1" defense="6">
 	</defenses>
 	<elements>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 	</elements>
 	<immunities>
 	</immunities>

@@ -45,7 +45,7 @@
 		</defense>
 	</defenses>
 	<elements>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 	</elements>
 	<immunities>
 	</immunities>

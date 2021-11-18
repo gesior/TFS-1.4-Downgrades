@@ -644,7 +644,7 @@ ShootTypeNames shootTypeNames = {
 CombatTypeNames combatTypeNames = {
 	{COMBAT_PHYSICALDAMAGE, 	"physical"},
 	{COMBAT_ENERGYDAMAGE, 		"energy"},
-	{COMBAT_EARTHDAMAGE, 		"earth"},
+	{COMBAT_POISONDAMAGE, 		"poison"},
 	{COMBAT_FIREDAMAGE, 		"fire"},
 	{COMBAT_UNDEFINEDDAMAGE, 	"undefined"},
 	{COMBAT_LIFEDRAIN, 		"lifedrain"},
@@ -679,7 +679,6 @@ AmmoTypeNames ammoTypeNames = {
 	{"flasharrow",		AMMO_ARROW},
 	{"flammingarrow",	AMMO_ARROW},
 	{"shiverarrow",		AMMO_ARROW},
-	{"eartharrow",		AMMO_ARROW},
 };
 
 WeaponActionNames weaponActionNames = {
@@ -897,7 +896,7 @@ size_t combatTypeToIndex(CombatType_t combatType)
 			return 0;
 		case COMBAT_ENERGYDAMAGE:
 			return 1;
-		case COMBAT_EARTHDAMAGE:
+		case COMBAT_POISONDAMAGE:
 			return 2;
 		case COMBAT_FIREDAMAGE:
 			return 3;

@@ -38,7 +38,7 @@
 		<summon name="mummy" chance="13" max="1"/>
 	</summons>
 	<elements>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 	</elements>
 	<immunities>
 		<immunity lifedrain="1"/>

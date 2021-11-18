@@ -56,7 +56,7 @@
 		<summon name="ghost" chance="12" max="2"/>
 	</summons>
 	<elements>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 	</elements>
 	<immunities>
 		<immunity lifedrain="1"/>

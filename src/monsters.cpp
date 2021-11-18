@@ -309,8 +309,8 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 			combat->setOrigin(ORIGIN_RANGED);
 		} else if (tmpName == "bleed") {
 			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_PHYSICALDAMAGE);
-		} else if (tmpName == "poison" || tmpName == "earth") {
-			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_EARTHDAMAGE);
+		} else if (tmpName == "poison") {
+			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_POISONDAMAGE);
 		} else if (tmpName == "fire") {
 			combat->setParam(COMBAT_PARAM_TYPE, COMBAT_FIREDAMAGE);
 		} else if (tmpName == "energy") {
@@ -429,7 +429,7 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 		} else if (tmpName == "energyfield") {
 			combat->setParam(COMBAT_PARAM_CREATEITEM, ITEM_ENERGYFIELD_PVP);
 		} else if (tmpName == "firecondition" || tmpName == "energycondition" ||
-				   tmpName == "earthcondition" || tmpName == "poisoncondition" ||
+				   tmpName == "poisoncondition" ||
 				   tmpName == "icecondition" || tmpName == "freezecondition" ||
 				   tmpName == "deathcondition" || tmpName == "cursecondition" ||
 				   tmpName == "holycondition" || tmpName == "dazzlecondition" ||
@@ -441,7 +441,7 @@ bool Monsters::deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, co
 			if (tmpName == "firecondition") {
 				conditionType = CONDITION_FIRE;
 				tickInterval = 10000;
-			} else if (tmpName == "poisoncondition" || tmpName == "earthcondition") {
+			} else if (tmpName == "poisoncondition") {
 				conditionType = CONDITION_POISON;
 				tickInterval = 4000;
 			} else if (tmpName == "energycondition") {
@@ -1068,9 +1068,8 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 				} else if (tmpStrValue == "fire") {
 					mType->info.damageImmunities |= COMBAT_FIREDAMAGE;
 					mType->info.conditionImmunities |= CONDITION_FIRE;
-				} else if (tmpStrValue == "poison" ||
-							tmpStrValue == "earth") {
-					mType->info.damageImmunities |= COMBAT_EARTHDAMAGE;
+				} else if (tmpStrValue == "poison") {
+					mType->info.damageImmunities |= COMBAT_POISONDAMAGE;
 					mType->info.conditionImmunities |= CONDITION_POISON;
 				} else if (tmpStrValue == "drown") {
 					mType->info.damageImmunities |= COMBAT_DROWNDAMAGE;
@@ -1116,9 +1115,9 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 					mType->info.damageImmunities |= COMBAT_FIREDAMAGE;
 					mType->info.conditionImmunities |= CONDITION_FIRE;
 				}
-			} else if ((attr = immunityNode.attribute("poison")) || (attr = immunityNode.attribute("earth"))) {
+			} else if ((attr = immunityNode.attribute("poison"))) {
 				if (attr.as_bool()) {
-					mType->info.damageImmunities |= COMBAT_EARTHDAMAGE;
+					mType->info.damageImmunities |= COMBAT_POISONDAMAGE;
 					mType->info.conditionImmunities |= CONDITION_POISON;
 				}
 			} else if ((attr = immunityNode.attribute("drown"))) {
@@ -1233,10 +1232,10 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 				if (mType->info.damageImmunities & COMBAT_ICEDAMAGE) {
 					std::cout << "[Warning - Monsters::loadMonster] Same element \"ice\" on immunity and element tags. " << file << std::endl;
 				}
-			} else if ((attr = elementNode.attribute("poisonPercent")) || (attr = elementNode.attribute("earthPercent"))) {
-				mType->info.elementMap[COMBAT_EARTHDAMAGE] = pugi::cast<int32_t>(attr.value());
-				if (mType->info.damageImmunities & COMBAT_EARTHDAMAGE) {
-					std::cout << "[Warning - Monsters::loadMonster] Same element \"earth\" on immunity and element tags. " << file << std::endl;
+			} else if ((attr = elementNode.attribute("poisonPercent"))) {
+				mType->info.elementMap[COMBAT_POISONDAMAGE] = pugi::cast<int32_t>(attr.value());
+				if (mType->info.damageImmunities & COMBAT_POISONDAMAGE) {
+					std::cout << "[Warning - Monsters::loadMonster] Same element \"poison\" on immunity and element tags. " << file << std::endl;
 				}
 			} else if ((attr = elementNode.attribute("firePercent"))) {
 				mType->info.elementMap[COMBAT_FIREDAMAGE] = pugi::cast<int32_t>(attr.value());

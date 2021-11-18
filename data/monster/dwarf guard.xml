@@ -23,7 +23,7 @@
 	<defenses armor="15" defense="101">
 	</defenses>
 	<elements>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 	</elements>
 	<immunities>
 		<immunity invisible="1"/>

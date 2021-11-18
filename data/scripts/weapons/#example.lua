@@ -73,7 +73,7 @@ local eba = Weapon(WEAPON_AXE)
 eba:id(7859)
 eba:attack(23)
 eba:defense(18, 1)
-eba:extraElement(5, COMBAT_EARTHDAMAGE)
+eba:extraElement(5, COMBAT_POISONDAMAGE)
 eba:charges(1000, true) -- showCharges = true
 eba:action("removecharge")
 eba:decayTo(2429)

@@ -44,7 +44,7 @@
 		<summon name="slime2" chance="3000" max="8"/>
 	</summons>
 	<elements>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 	</elements>
 	<immunities>
 		<immunity lifedrain="1"/>

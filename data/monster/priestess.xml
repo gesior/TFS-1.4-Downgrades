@@ -36,7 +36,7 @@
 	</summons>
 	<elements>
 		<element firePercent="100"/>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 		<element energyPercent="100"/>
 	</elements>
 	<immunities>

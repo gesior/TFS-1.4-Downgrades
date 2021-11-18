@@ -13,7 +13,7 @@ local traps = {
 	[4208] = { -- jungle maw
 		transformTo = 4209,
 		damage = {-30, -30},
-		type = COMBAT_EARTHDAMAGE
+		type = COMBAT_POISONDAMAGE
 	},
 	[25331] = { -- lava (walkable)
 		damage = {-500, -500},

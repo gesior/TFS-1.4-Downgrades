@@ -24,7 +24,7 @@
 		<defense name="haste_orcberserker" chance="9"/>
 	</defenses>
 	<elements>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 	</elements>
 	<immunities>
 	</immunities>

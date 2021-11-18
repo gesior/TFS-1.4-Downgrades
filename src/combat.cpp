@@ -165,7 +165,7 @@ CombatType_t Combat::ConditionToDamageType(ConditionType_t type)
 			return COMBAT_DROWNDAMAGE;
 
 		case CONDITION_POISON:
-			return COMBAT_EARTHDAMAGE;
+			return COMBAT_POISONDAMAGE;
 
 		case CONDITION_FREEZING:
 			return COMBAT_ICEDAMAGE;
@@ -195,7 +195,7 @@ ConditionType_t Combat::DamageToConditionType(CombatType_t type)
 		case COMBAT_DROWNDAMAGE:
 			return CONDITION_DROWN;
 
-		case COMBAT_EARTHDAMAGE:
+		case COMBAT_POISONDAMAGE:
 			return CONDITION_POISON;
 
 		case COMBAT_ICEDAMAGE:

@@ -74,7 +74,7 @@ monster.elements = {
 	{type = COMBAT_PHYSICALDAMAGE, percent = 30},
 	{type = COMBAT_DEATHDAMAGE, percent = 30},
 	{type = COMBAT_ENERGYDAMAGE, percent = 50},
-	{type = COMBAT_EARTHDAMAGE, percent = 40},
+	{type = COMBAT_POISONDAMAGE, percent = 40},
 	{type = COMBAT_ICEDAMAGE, percent = -10},
 	{type = COMBAT_HOLYDAMAGE, percent = -10}
 }

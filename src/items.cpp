@@ -103,7 +103,6 @@ const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributes
 	{"fieldabsorbpercentenergy", ITEM_PARSE_FIELDABSORBPERCENTENERGY},
 	{"fieldabsorbpercentfire", ITEM_PARSE_FIELDABSORBPERCENTFIRE},
 	{"fieldabsorbpercentpoison", ITEM_PARSE_FIELDABSORBPERCENTPOISON},
-	{"fieldabsorbpercentearth", ITEM_PARSE_FIELDABSORBPERCENTPOISON},
 	{"absorbpercentall", ITEM_PARSE_ABSORBPERCENTALL},
 	{"absorbpercentallelements", ITEM_PARSE_ABSORBPERCENTALL},
 	{"absorbpercentelements", ITEM_PARSE_ABSORBPERCENTELEMENTS},
@@ -111,7 +110,6 @@ const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributes
 	{"absorbpercentenergy", ITEM_PARSE_ABSORBPERCENTENERGY},
 	{"absorbpercentfire", ITEM_PARSE_ABSORBPERCENTFIRE},
 	{"absorbpercentpoison", ITEM_PARSE_ABSORBPERCENTPOISON},
-	{"absorbpercentearth", ITEM_PARSE_ABSORBPERCENTPOISON},
 	{"absorbpercentice", ITEM_PARSE_ABSORBPERCENTICE},
 	{"absorbpercentholy", ITEM_PARSE_ABSORBPERCENTHOLY},
 	{"absorbpercentdeath", ITEM_PARSE_ABSORBPERCENTDEATH},
@@ -141,7 +139,7 @@ const std::unordered_map<std::string, ItemParseAttributes_t> ItemParseAttributes
 	{"transformto", ITEM_PARSE_TRANSFORMTO},
 	{"destroyto", ITEM_PARSE_DESTROYTO},
 	{"elementice", ITEM_PARSE_ELEMENTICE},
-	{"elementearth", ITEM_PARSE_ELEMENTEARTH},
+	{"elementpoison", ITEM_PARSE_ELEMENTPOISON},
 	{"elementfire", ITEM_PARSE_ELEMENTFIRE},
 	{"elementenergy", ITEM_PARSE_ELEMENTENERGY},
 	{"elementdeath", ITEM_PARSE_ELEMENTDEATH},
@@ -1009,7 +1007,7 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 				}
 
 				case ITEM_PARSE_FIELDABSORBPERCENTPOISON: {
-					abilities.fieldAbsorbPercent[combatTypeToIndex(COMBAT_EARTHDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
+					abilities.fieldAbsorbPercent[combatTypeToIndex(COMBAT_POISONDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
 					break;
 				}
 
@@ -1025,7 +1023,7 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 					int16_t value = pugi::cast<int16_t>(valueAttribute.value());
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_ENERGYDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_FIREDAMAGE)] += value;
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_EARTHDAMAGE)] += value;
+					abilities.absorbPercent[combatTypeToIndex(COMBAT_POISONDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_ICEDAMAGE)] += value;
 					break;
 				}
@@ -1034,7 +1032,7 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 					int16_t value = pugi::cast<int16_t>(valueAttribute.value());
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_ENERGYDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_FIREDAMAGE)] += value;
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_EARTHDAMAGE)] += value;
+					abilities.absorbPercent[combatTypeToIndex(COMBAT_POISONDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_ICEDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_HOLYDAMAGE)] += value;
 					abilities.absorbPercent[combatTypeToIndex(COMBAT_DEATHDAMAGE)] += value;
@@ -1052,7 +1050,7 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 				}
 
 				case ITEM_PARSE_ABSORBPERCENTPOISON: {
-					abilities.absorbPercent[combatTypeToIndex(COMBAT_EARTHDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
+					abilities.absorbPercent[combatTypeToIndex(COMBAT_POISONDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
 					break;
 				}
 
@@ -1180,7 +1178,7 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 						combatType = COMBAT_ENERGYDAMAGE;
 					} else if (tmpStrValue == "poison") {
 						conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_POISON);
-						combatType = COMBAT_EARTHDAMAGE;
+						combatType = COMBAT_POISONDAMAGE;
 					} else if (tmpStrValue == "drown") {
 						conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_DROWN);
 						combatType = COMBAT_DROWNDAMAGE;
@@ -1314,9 +1312,9 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 					break;
 				}
 
-				case ITEM_PARSE_ELEMENTEARTH: {
+				case ITEM_PARSE_ELEMENTPOISON: {
 					abilities.elementDamage = pugi::cast<uint16_t>(valueAttribute.value());
-					abilities.elementType = COMBAT_EARTHDAMAGE;
+					abilities.elementType = COMBAT_POISONDAMAGE;
 					break;
 				}
 

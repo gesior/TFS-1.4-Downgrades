@@ -30,7 +30,7 @@
 		<defense name="haste_gazer" chance="9"/>
 	</defenses>
 	<elements>
-		<element earthPercent="100"/>
+		<element poisonPercent="100"/>
 	</elements>
 	<immunities>
 		<immunity lifedrain="1"/>

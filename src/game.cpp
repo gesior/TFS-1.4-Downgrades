@@ -3836,7 +3836,7 @@ bool Game::combatBlockHit(CombatDamage& damage, Creature* attacker, Creature* ta
 					hitEffect = CONST_ME_BLOCKHIT;
 					break;
 				}
-				case COMBAT_EARTHDAMAGE: {
+				case COMBAT_POISONDAMAGE: {
 					hitEffect = CONST_ME_GREEN_RINGS;
 					break;
 				}
@@ -3930,7 +3930,7 @@ void Game::combatGetTypeInfo(CombatType_t combatType, Creature* target, TextColo
 			break;
 		}
 
-		case COMBAT_EARTHDAMAGE: {
+		case COMBAT_POISONDAMAGE: {
 			color = TEXTCOLOR_LIGHTGREEN;
 			effect = CONST_ME_GREEN_RINGS;
 			break;

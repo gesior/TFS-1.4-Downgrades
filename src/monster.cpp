@@ -129,7 +129,7 @@ bool Monster::canWalkOnFieldType(CombatType_t combatType) const
 			return mType->info.canWalkOnEnergy;
 		case COMBAT_FIREDAMAGE:
 			return mType->info.canWalkOnFire;
-		case COMBAT_EARTHDAMAGE:
+		case COMBAT_POISONDAMAGE:
 			return mType->info.canWalkOnPoison;
 		default:
 			return true;
