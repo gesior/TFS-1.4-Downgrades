@@ -1,42 +1,29 @@
-FROM alpine:3.13.0 AS build
-# crypto++-dev is in edge/testing
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
-  binutils \
-  boost-dev \
-  build-base \
-  clang \
-  cmake \
-  crypto++-dev \
-  fmt-dev \
-  gcc \
-  gmp-dev \
-  luajit-dev \
-  make \
-  mariadb-connector-c-dev \
-  pugixml-dev
+FROM ubuntu:22.04 AS build
+
+RUN apt update && \
+    apt install -yq cmake build-essential ninja-build \
+    libcrypto++-dev libfmt-dev liblua5.4-dev libluajit-5.1-dev libmysqlclient-dev \
+    libboost-iostreams-dev libboost-locale-dev libboost-system-dev libpugixml-dev
+
+RUN apt install -yq libboost-filesystem-dev
 
 COPY cmake /usr/src/forgottenserver/cmake/
 COPY src /usr/src/forgottenserver/src/
 COPY CMakeLists.txt /usr/src/forgottenserver/
-WORKDIR /usr/src/forgottenserver/build
-RUN cmake .. && make
+WORKDIR /usr/src/forgottenserver
 
-FROM alpine:3.13.0
-# crypto++ is in edge/testing
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
-  boost-iostreams \
-  boost-system \
-  boost-filesystem \
-  crypto++ \
-  fmt \
-  gmp \
-  luajit \
-  mariadb-connector-c \
-  pugixml
+RUN mkdir build && cd build && cmake .. && make -j 32
+
+FROM ubuntu:22.04
+
+RUN apt update && \
+    apt install -yq cmake build-essential ninja-build \
+    libcrypto++-dev libfmt-dev liblua5.4-dev libluajit-5.1-dev libmysqlclient-dev \
+    libboost-iostreams-dev libboost-locale-dev libboost-system-dev libpugixml-dev
+
+RUN apt install -yq libboost-filesystem-dev
 
 COPY --from=build /usr/src/forgottenserver/build/tfs /bin/tfs
-COPY data /srv/data/
-COPY LICENSE README.md *.dist *.sql key.pem /srv/
 
 EXPOSE 7171 7172
 WORKDIR /srv
