@@ -57,7 +57,7 @@ TalkActionResult_t Spells::playerSaySpell(Player* player, std::string& words)
 
 	std::string param;
 
-	if (instantSpell->getHasParam()) {
+	if (instantSpell->getHasParam() || str_words.length() > instantSpell->getWords().length()) {
 		size_t spellLen = instantSpell->getWords().length();
 		size_t paramLen = str_words.length() - spellLen;
 		std::string paramText = str_words.substr(spellLen, paramLen);
@@ -85,11 +85,7 @@ TalkActionResult_t Spells::playerSaySpell(Player* player, std::string& words)
 	}
 
 	if (instantSpell->playerCastInstant(player, param)) {
-		words = instantSpell->getWords();
-
-		if (instantSpell->getHasParam() && !param.empty()) {
-			words += " \"" + param + "\"";
-		}
+		words = str_words;
 
 		return TALKACTION_BREAK;
 	}
@@ -249,14 +245,17 @@ InstantSpell* Spells::getInstantSpell(const std::string& words)
 	if (result) {
 		const std::string& resultWords = result->getWords();
 		if (words.length() > resultWords.length()) {
-			if (!result->getHasParam()) {
-				return nullptr;
-			}
-
 			size_t spellLen = resultWords.length();
 			size_t paramLen = words.length() - spellLen;
 			if (paramLen < 2 || words[spellLen] != ' ') {
 				return nullptr;
+			}
+
+			if (!result->getHasParam()) {
+				size_t quotePos = words.find_first_not_of(' ', spellLen);
+				if (quotePos == std::string::npos || words[quotePos] != '"') {
+					return nullptr;
+				}
 			}
 		}
 		return result;
@@ -1274,3 +1273,4 @@ bool RuneSpell::executeCastSpell(Creature* creature, const LuaVariant& var, bool
 
 	return scriptInterface->callFunction(3);
 }
+
